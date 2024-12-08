@@ -13,8 +13,7 @@ def heladeria_routes(app):
 
       # Configuración de flask-login
     login_manager = LoginManager(app)
-    login_manager.login_view = 'login'
-    
+
     @login_manager.user_loader
     def cargar_usuario(user_id):
        return Usuario.query.get(int(user_id))
