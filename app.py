@@ -15,7 +15,7 @@ app = Flask(__name__)
 secret_key = os.urandom(24)
 app.config['SECRET_KEY'] = secret_key
 
-app.config["SQLALCHEMY_DATABASE_URI"]= 'sqlite:///app.db'
+app.config["SQLALCHEMY_DATABASE_URI"]= 'sqlite:///heladeria.db'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 
