@@ -55,7 +55,7 @@ def heladeria_routes(app):
         return redirect(url_for('login'))
     
     @app.route("/mostrar_ingredientes")
-   
+    @login_required
     def mostrar_ingredientes():
        if current_user.es_admin or current_user.es_empleado:
             ingredientes = Ingrediente.query.all()
