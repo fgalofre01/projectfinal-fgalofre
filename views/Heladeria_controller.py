@@ -39,7 +39,7 @@ def heladeria_routes(app):
             password = request.form['password']
             usuario = Usuario.query.filter_by(usuario=usuario).first()
 
-            if usuario == request.form['usuario']  and password == request.form['password']:
+            if usuario and usuario.password:
                   login_user(usuario)
                   return redirect(url_for('index')) 
             else:   
