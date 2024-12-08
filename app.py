@@ -8,7 +8,7 @@ import pymysql
 import os
 
 
-load_dotenv()
+load_dotenv(override=True)
 
 app = Flask(__name__)
 
