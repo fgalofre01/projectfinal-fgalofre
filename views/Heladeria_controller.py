@@ -55,6 +55,7 @@ def heladeria_routes(app):
         return redirect(url_for('login'))
     
     @app.route("/mostrar_ingredientes")
+   
     def mostrar_ingredientes():
        if current_user.es_admin or current_user.es_empleado:
             ingredientes = Ingrediente.query.all()
@@ -63,7 +64,7 @@ def heladeria_routes(app):
            return render_template('sin_autorizacion.html')
             
     @app.route('/ingredientes_sanos')
-
+    @login_required
     def mostrar_ingrediente_sano():
         if current_user.es_admin or current_user.es_empleado:
             ingredientes = Ingrediente.query.all()  # Obtiene todos los ingredientes
@@ -83,6 +84,7 @@ def heladeria_routes(app):
             
     
     @app.route('/costo_ajustado')
+    @login_required
     def mostrar_costo_ajustado():
         if current_user.es_admin or current_user.es_empleado:
             productos = None
@@ -107,6 +109,7 @@ def heladeria_routes(app):
             return render_template('sin_autorizacion.html')
 
     @app.route('/calorias')
+    @login_required
     def calcular_calorias():
         if current_user.es_admin or current_user.es_empleado or current_user.es_cliente:
             productos = Producto.query.limit(4).all()
@@ -130,6 +133,7 @@ def heladeria_routes(app):
             return render_template('sin_autorizacion.html')
     
     @app.route('/rentabilidad')
+    @login_required
     def calcular_rentabilidad():
         if current_user.es_admin:
             productos = Producto.query.limit(4).all()
@@ -153,6 +157,7 @@ def heladeria_routes(app):
             return render_template('sin_autorizacion.html')
 
     @app.route('/mas_rentable')
+    @login_required
     def mas_rentable():
       if current_user.es_admin: 
             productos = Producto.query.limit(4).all()
@@ -186,6 +191,7 @@ def heladeria_routes(app):
           return render_template('sin_autorizacion.html')
     
     @app.route('/registrar_venta', methods=['GET'])
+    @login_required
     def mostrar_registro_venta():
         if current_user.es_admin or current_user.es_empleado or current_user.es_cliente:
             productos = Producto.query.limit(4).all()  # Obtiene todos los productos
@@ -194,6 +200,7 @@ def heladeria_routes(app):
              return render_template('sin_autorizacion.html')
     
     @app.route('/registrar_venta', methods=['POST'])
+    @login_required
     def registrar_venta():
         if current_user.es_admin or current_user.es_empleado or current_user.es_cliente:
             if request.method == 'POST':
@@ -218,6 +225,7 @@ def heladeria_routes(app):
              return render_template('sin_autorizacion.html')
              
     @app.route('/ventas')
+    @login_required
     def mostrar_ventas():
         if current_user.es_admin or current_user.es_empleado or current_user.es_cliente:
             ventas = Venta.query.all()
@@ -227,6 +235,7 @@ def heladeria_routes(app):
 
 
     @app.route('/ingredientes_categoria')
+    @login_required
     def ingredientes_categoria():
         if current_user.es_admin or current_user.es_empleado:
             ingredientes = Ingrediente.query.all()  # Obtiene todos los ingredientes
@@ -251,6 +260,7 @@ def heladeria_routes(app):
             return render_template('sin_autorizacion.html')
     
     @app.route('/producto_mas_vendido')
+    @login_required
     def producto_mas_vendido():
         if current_user.es_admin or current_user.es_empleado:
             # Calcular el producto más vendido
@@ -264,6 +274,7 @@ def heladeria_routes(app):
             return render_template('sin_autorizacion.html')
     
     @app.route('/abastecer_inventario', methods=['GET', 'POST'])
+    @login_required
     def abastecer_inventario():
         if current_user.es_admin or current_user.es_empleado:  
             if request.method == 'POST':
@@ -287,6 +298,7 @@ def heladeria_routes(app):
             return render_template('sin_autorizacion.html')
         
     @app.route('/renovar_inventario', methods=['GET', 'POST'])
+    @login_required
     def renovar_inventario():
         if current_user.es_admin or current_user.es_empleado: 
             if request.method == 'POST':
@@ -309,6 +321,7 @@ def heladeria_routes(app):
            return render_template('sin_autorizacion.html')
 
     @app.route('/vender/<int:producto_id>', methods=['POST'])
+    @login_required
     def vender_producto(producto_id):
         if current_user.es_admin or current_user.es_empleado or current_user.es_cliente:
             # Obtener el producto desde la lista de productos (simulación)
@@ -331,6 +344,7 @@ def heladeria_routes(app):
            return render_template('sin_autorizacion.html')   
         
     @app.route('/registrar_ventas/<int:producto_id>', methods=['POST'])
+    @login_required
     def registrar_ventas(producto_id):
         if current_user.es_admin or current_user.es_empleado or current_user.es_cliente:
             # Buscar el producto
