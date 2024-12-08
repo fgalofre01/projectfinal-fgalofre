@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for,flash,jsonify
+from flask import render_template, redirect, request, url_for,flash,session,jsonify
 from models.Productos import Producto
 from models.Ingredientes import Ingrediente
 from models.Heladeria import Heladeria
@@ -39,7 +39,7 @@ def heladeria_routes(app):
             password = request.form['password']
             usuario = Usuario.query.filter_by(usuario=usuario).first()
 
-            if usuario and usuario.verify_password(password):
+            if usuario == request.form['usuario']  and password == request.form['password']:
                   login_user(usuario)
                   return redirect(url_for('index')) 
             else:   
