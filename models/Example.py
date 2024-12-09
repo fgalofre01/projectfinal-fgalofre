@@ -1,5 +1,5 @@
 from werkzeug.security import check_password_hash, generate_password_hash
-
+import secrets
 class Example():
 
     def __init__(self, usuario, password, es_admin,es_empleado, es_cliente):
@@ -14,3 +14,6 @@ class Example():
         return check_password_hash(hashed_password,password)
 
 print(generate_password_hash("96547"))
+
+
+print(secrets.token_hex(32))

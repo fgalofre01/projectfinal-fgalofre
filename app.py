@@ -12,13 +12,14 @@ load_dotenv(override=True)
 
 app = Flask(__name__)
 
-secret_key = os.urandom(24)
-app.config['SECRET_KEY'] = secret_key
+app.secret_key = os.getenv("SECRET_KEY", "esta_es_una_clave_segura")
 
 app.config["SQLALCHEMY_DATABASE_URI"]= 'sqlite:///app.db'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=1)
 app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
 db.init_app(app)#SQLAlchemy(app)
 init_db(app)

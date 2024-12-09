@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for,flash
+from flask import render_template, redirect, request, url_for,flash, session
 from models.Productos import Producto
 from models.Ingredientes import Ingrediente
 from models.Heladeria import Heladeria
@@ -55,7 +55,7 @@ def heladeria_routes(app):
     @app.route("/mostrar_ingredientes")
     @login_required
     def mostrar_ingredientes():
-       if current_user.es_admin and current_user.es_empleado:
+       if current_user.es_admin or current_user.es_empleado:
             ingredientes = Ingrediente.query.all()
             return render_template('mostrar_ingredientes.html', ingredientes=ingredientes)
        else:
@@ -64,7 +64,7 @@ def heladeria_routes(app):
     @app.route('/ingredientes_sanos')
     @login_required
     def mostrar_ingrediente_sano():
-        if current_user.es_admin and current_user.es_empleado:
+        if current_user.es_admin or current_user.es_empleado:
             ingredientes = Ingrediente.query.all()  # Obtiene todos los ingredientes
             ingredientes_sanos = []
 
@@ -84,7 +84,7 @@ def heladeria_routes(app):
     @app.route('/costo_ajustado')
     @login_required
     def mostrar_costo_ajustado():
-        if current_user.es_admin and current_user.es_empleado:
+        if current_user.es_admin or current_user.es_empleado:
             productos = None
             productos = Producto.query.limit(4).all()
             heladeria.productos= []
@@ -109,7 +109,7 @@ def heladeria_routes(app):
     @app.route('/calorias')
     @login_required
     def calcular_calorias():
-        if current_user.es_admin and current_user.es_empleado and current_user.es_cliente:
+        if current_user.es_admin or current_user.es_empleado or current_user.es_cliente:
             productos = Producto.query.limit(4).all()
             heladeria.productos= []
             for producto in productos:
@@ -191,7 +191,7 @@ def heladeria_routes(app):
     @app.route('/registrar_venta', methods=['GET'])
     @login_required
     def mostrar_registro_venta():
-        if current_user.es_admin and current_user.es_empleado and current_user.es_cliente:
+        if current_user.es_admin or current_user.es_empleado or current_user.es_cliente:
             productos = Producto.query.limit(4).all()  # Obtiene todos los productos
             return render_template('registrar_venta.html', productos=productos)
         else:
@@ -200,7 +200,7 @@ def heladeria_routes(app):
     @app.route('/registrar_venta', methods=['POST'])
     @login_required
     def registrar_venta():
-        if current_user.es_admin and current_user.es_empleado and current_user.es_cliente:
+        if current_user.es_admin or current_user.es_empleado or current_user.es_cliente:
             if request.method == 'POST':
                 producto_id = request.form.get('producto_id', type=int)
                 cantidad = request.form.get('cantidad', type=int)
@@ -225,7 +225,7 @@ def heladeria_routes(app):
     @app.route('/ventas')
     @login_required
     def mostrar_ventas():
-        if current_user.es_admin and current_user.es_empleado and current_user.es_cliente:
+        if current_user.es_admin or current_user.es_empleado or current_user.es_cliente:
             ventas = Venta.query.all()
             return render_template('ventas.html', ventas=ventas)
         else:
@@ -235,7 +235,7 @@ def heladeria_routes(app):
     @app.route('/ingredientes_categoria')
     @login_required
     def ingredientes_categoria():
-        if current_user.es_admin and current_user.es_empleado:
+        if current_user.es_admin or current_user.es_empleado:
             ingredientes = Ingrediente.query.all()  # Obtiene todos los ingredientes
             ingredientes_clasificados = []
 
@@ -260,7 +260,7 @@ def heladeria_routes(app):
     @app.route('/producto_mas_vendido')
     @login_required
     def producto_mas_vendido():
-        if current_user.es_admin and current_user.es_empleado:
+        if current_user.es_admin or current_user.es_empleado:
             # Calcular el producto más vendido
             producto = Producto.query.order_by(Producto.ventas_totales.desc()).first()
             
@@ -274,7 +274,7 @@ def heladeria_routes(app):
     @app.route('/abastecer_inventario', methods=['GET', 'POST'])
     @login_required
     def abastecer_inventario():
-        if current_user.es_admin and current_user.es_empleado:  
+        if current_user.es_admin or current_user.es_empleado:  
             if request.method == 'POST':
                 ingrediente_id = request.form.get('ingrediente_id')
                 heladeria.inventario = int(request.form.get('inventario'))
@@ -298,7 +298,7 @@ def heladeria_routes(app):
     @app.route('/renovar_inventario', methods=['GET', 'POST'])
     @login_required
     def renovar_inventario():
-        if current_user.es_admin and current_user.es_empleado: 
+        if current_user.es_admin or current_user.es_empleado: 
             if request.method == 'POST':
                     ingrediente_id = request.form.get('ingrediente_id')
                     
@@ -321,7 +321,7 @@ def heladeria_routes(app):
     @app.route('/vender/<int:producto_id>', methods=['POST'])
     @login_required
     def vender_producto(producto_id):
-        if current_user.es_admin and current_user.es_empleado and current_user.es_cliente:
+        if current_user.es_admin or current_user.es_empleado or current_user.es_cliente:
             # Obtener el producto desde la lista de productos (simulación)
             producto = next((p for p in heladeria.productos if p.id == producto_id), None)
             
@@ -344,7 +344,7 @@ def heladeria_routes(app):
     @app.route('/registrar_ventas/<int:producto_id>', methods=['POST'])
     @login_required
     def registrar_ventas(producto_id):
-        if current_user.es_admin and current_user.es_empleado and current_user.es_cliente:
+        if current_user.es_admin or current_user.es_empleado or current_user.es_cliente:
             # Buscar el producto
             productos = Producto.query.limit(4).all()
             producto = next((p for p in heladeria.productos if p.id == producto_id), None)
