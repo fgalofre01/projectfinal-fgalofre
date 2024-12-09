@@ -4,7 +4,7 @@ from utils.db import db,init_db
 from views.Heladeria_controller import heladeria_routes
 from views.API import heladeria_apis
 from flask_restful import Api
-import pymysql
+from datetime import timedelta
 import os
 
 
@@ -17,7 +17,8 @@ app.config['SECRET_KEY'] = secret_key
 
 app.config["SQLALCHEMY_DATABASE_URI"]= 'sqlite:///app.db'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=1)
+app.config["SESSION_COOKIE_SECURE"] = True
 
 db.init_app(app)#SQLAlchemy(app)
 init_db(app)
