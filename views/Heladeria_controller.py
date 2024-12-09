@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for,flash, session
+from flask import render_template, redirect, request, url_for,flash
 from models.Productos import Producto
 from models.Ingredientes import Ingrediente
 from models.Heladeria import Heladeria
@@ -37,9 +37,7 @@ def heladeria_routes(app):
             usuario = request.form['usuario']
             password = request.form['password']
             usuario = Usuario.query.filter_by(usuario=usuario).first()
-            session.permanent = True
-            session["id"] = usuario.id
-
+    
             if usuario and usuario.check_password(password):
                   login_user(usuario, remember=True)
                   return redirect(url_for('index')) 
