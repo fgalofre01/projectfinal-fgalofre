@@ -40,7 +40,6 @@ def heladeria_routes(app):
 
             if usuario and usuario.check_password(password):
                   login_user(usuario)
-                  flash("Inicio de sesión exitoso", "success")
                   return redirect(url_for('index')) 
             else:   
                 flash("Usuario o contraseña incorrectos ", "danger")
