@@ -1,12 +1,11 @@
-from flask import render_template, redirect, request, url_for,flash,session,jsonify
+from flask import render_template, redirect, request, url_for,flash
 from models.Productos import Producto
 from models.Ingredientes import Ingrediente
 from models.Heladeria import Heladeria
 from models.Ventas import Venta
 from models.Usuario import Usuario
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from flask_login import LoginManager,login_user, logout_user, login_required, current_user
 from utils.db import db
-import datetime
 heladeria = Heladeria()
 
 def heladeria_routes(app):
@@ -45,7 +44,6 @@ def heladeria_routes(app):
                   return redirect(url_for('index')) 
             else:   
                 flash("Usuario o contraseña incorrectos ", "danger")
-                return redirect(url_for('login'))
         return render_template('login.html')
     
     @app.route('/logout')

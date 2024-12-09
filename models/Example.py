@@ -9,12 +9,8 @@ class Example():
         self.es_empleado = es_empleado
         self.es_cliente = es_cliente
 
-    def set_password(self, password):
-        """Crea un hash para la contraseña."""
-        self.password = generate_password_hash(password)
+    @classmethod
+    def check_password(self, hashed_password,password):
+        return check_password_hash(hashed_password,password)
 
-    def check_password(self, password):
-        """Verifica si la contraseña coincide con el hash almacenado."""
-        return check_password_hash(self.password, password)
-
-print(generate_password_hash("35895"))
+print(generate_password_hash("96547"))
